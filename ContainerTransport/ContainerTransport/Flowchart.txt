@@ -44,7 +44,7 @@ MAIN FLOW BUILDING SHIP																							ADMINISTRATION
 0. Instantiate creation with given input.																		dock.BuildShip(length, height)
 
 1. Assign ship values in constructor																			IShip ship = new Ship(length, width)
-																												List<
+																												
 2. Assign slots to side																							
 																		
 DONE! 
