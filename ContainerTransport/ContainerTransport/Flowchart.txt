@@ -1,0 +1,82 @@
+===============================
+ FLOWCHART CONTAINER TRANSPORT
+===============================
+ REQUIREMENTS
+================
+DUTCH
+========
+•	Het maximum gewicht bovenop een container is 120 ton.
+•	Een volle container weegt maximaal 30 ton. Een lege container weegt 4000 kg.
+•	Er mag niets bovenop een container met waardevolle lading worden gestapeld; wel mogen deze containers zelf op andere containers geplaatst worden.
+•	Een container met waardevolle lading moet altijd via de voor- of achterkant te benaderen zijn. Je mag er vanuit gaan dat ook gestapelde containers te benaderen zijn.
+•	Alle containers die gekoeld moeten blijven moeten in de eerste rij worden geplaatst vanwege de stroomvoorziening die aan de voorkant van elk schip zit.
+•	Om kapseizen te voorkomen moet ten minste 50% van het maximum gewicht van een schip zijn benut.
+•	Het schip moet in evenwicht zijn: het volledige gewicht van de containers voor iedere helft mag niet meer dan 20% verschillen.
+•	De afmeting van een schip moet instelbaar zijn in de applicatie, waarbij de hoogte en breedte in containers aangegeven kan worden.
+========
+ENGLISH
+========
+• The maximum weight on top of a container is 120 tons.
+• A full container weighs a maximum of 30 tons. An empty container weighs 4000 kg.
+• Nothing may be stacked on top of a container with valuable cargo; however, these containers may themselves be placed on other containers.
+• A container with valuable cargo must always be approachable via the front or back. You can assume that stacked containers can also be approached.
+• All containers that need to be refrigerated must be placed in the first row because of the power supply on the front of each ship.
+• A ship has a maximum weight it can carry. To prevent capsizing, at least 50% of the maximum weight of a ship must be used.
+• The ship must be in balance: the full weight of the containers for each half must not differ by more than 20%.
+• The size of a ship must be adjustable in the application, whereby the length and width can be indicated in containers.
+====================================
+CLASSES:				INTERFACES:
+====================================
+- Ship					- IShip
+- Dock					- IDock					(ON STARTUP)
+- Container				- IContainer			ENUM: ContainerType
+- ContainerShipLoader	- IContainerShipLoader	<- Implements ILoader			
+- Slot					- ISlot															
+- ContainerTransportController
+=====================================================================================================================================================================
+MAIN FLOW BUILDING SHIP																							ADMINISTRATION
+=====================================================================================================================================================================
+																										INPUT:	Ship size (Length and Width in containers), AssignShip()
+												
+																										PROCESS: 			
+																												int length = GetLengthInput()
+																												int width = GetHeightInput()
+0. Instantiate creation with given input.																		dock.BuildShip(length, height)
+
+1. Assign ship values in constructor																			IShip ship = new Ship(length, width)
+																												List<
+2. Assign slots to side																							
+																		
+DONE! 
+======================================================================================================================================================================
+MAIN FLOW LOADING SHIP																							ADMINISTRATION
+======================================================================================================================================================================
+																										INPUT:	List of containers, StartLoading()
+
+																										PROCESS:
+0. Initiate ContainerShipLoader																					IContainerShipLoader shiploader = new ContainerShipLoader()			
+
+1. Get list of containers																						IContainer unloadedContainers = dock.GetContainers()
+
+2. As long as there are refrigerated containers, get next refrigerated container								Find unloadedContainers.ContainerType == refrigerated
+
+3. Place refrigerated container in first row																	PlaceRefrigeratedContainer(IContainer container)		
+		|
+		|
+		1. Get the side of the ship which retains the best balance possible.									ship.GetSideToPlaceContainerOn()
+		|
+		2. Get the first row and check if a container can be placed.											ship.IsFirstRowFull() 
+======================================================================================================================================================================
+MAIN FLOW ROW OCCUPATION																						ADMINISTRATION
+======================================================================================================================================================================
+
+
+======================================================================================================================================================================
+MAIN FLOW SHIP BALANCE																							ADMINISTRATION
+======================================================================================================================================================================
+																										INPUT: Get ship balance, GetSideToPlaceContainerOn()
+																										
+																										PROCESS:
+0. Check if the ship is in balance																				if(ship.leftWeight == loadedContainers.right.Count) 
+
+	A. Return that middle																						return center
