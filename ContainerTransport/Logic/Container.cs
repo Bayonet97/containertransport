@@ -26,5 +26,10 @@ namespace Logic
             ContainerWeight = weight + _baseContainerWeight;
             ContainerType = type;
         }
+
+        public override string ToString()
+        {
+            return "Type: " + ContainerType + "Weight: " + ContainerWeight;
+        }
     }
 }

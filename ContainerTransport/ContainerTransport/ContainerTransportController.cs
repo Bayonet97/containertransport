@@ -31,12 +31,14 @@ namespace ContainerTransport
             int length = Convert.ToInt16(ShipLengthNumericUpDown.Value);
 
             _dock.BuildShip(width, length);
+            ContainerPlacerBox.Visible = true;
+            ShipBuilderBox.Visible = false;
             DisplayShipSlots();
         }
 
         private void DisplayShipSlots()
         {
-            MessageBox.Show(string.Join(Environment.NewLine, _dock.Ship.GetAllSlots()));
+            MessageBox.Show(_dock.Ship.ToString());
         }
     }
 }

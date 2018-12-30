@@ -17,5 +17,12 @@ namespace Logic
         {
             Ship = new Ship(width, length);
         }
+
+        public override string ToString()
+        {
+            return "The ship on the dock has a lenght of: " + Ship.TotalLength +
+                "And a width of: " + Ship.TotalWidth +
+                "And there are " + UnorderedContainers.Count + " on the dock.";
+        }
     }
 }

@@ -6,6 +6,5 @@ namespace Logic
     {
         int TotalLength { get; }
         int TotalWidth { get; }
-        List<string> GetAllSlots();
     }
 }

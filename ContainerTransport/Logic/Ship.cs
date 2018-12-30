@@ -41,10 +41,10 @@ namespace Logic
             return HasCenter && lengthRow == width / 2 + 0.5 ? ShipSide.Center : lengthRow <= width / 2 ? ShipSide.Left : ShipSide.Right;
         }
 
-        public List<string> GetAllSlots()
+        public override string ToString()
         {
             List<string> slotList = new List<string>();
-            if(Slots.Count != 0)
+            if (Slots.Count != 0)
             {
                 foreach (ISlot slot in Slots)
                 {
@@ -55,8 +55,8 @@ namespace Logic
             {
                 slotList.Add("The ship has no slots.");
             }
-
-            return slotList;
+            
+            return string.Join(Environment.NewLine, slotList);
         }
     }
 }
