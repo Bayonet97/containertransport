@@ -15,19 +15,32 @@ namespace ContainerTransport
         [STAThread]
         static void Main()
         {
-            List<IContainer> exampleContainers = new List<IContainer>();
-            exampleContainers.AddRange(new List<IContainer>
-            {
-                 new Container(30000, ContainerType.Normal),
-                 new Container(12000, ContainerType.ValuableAndCooled)
-            });
-
-            IDock dock = new Dock(exampleContainers);
+            // ------------------------------------------------------------ //
+            // FOR TESTING. DELETE LATER.
+            List<IContainer> exampleContainers = CreateTestContainers();
+            // ------------------------------------------------------------ //
+            IDock dock = new Dock();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new ContainerTransportController(dock));
 
         }
+
+        // ------------------------------------------------------------ //
+        // FOR TESTING. DELETE LATER.
+        private static List<IContainer> CreateTestContainers()
+        {
+            List<IContainer> containers = new List<IContainer>();
+            containers.AddRange(new List<IContainer>
+            {
+                // CREATE TEST CONTAINERS HERE
+                 new Container(),
+                 new Container()
+            });
+
+            return containers;
+        }
+        // ------------------------------------------------------------ //
     }
 }

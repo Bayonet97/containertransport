@@ -36,10 +36,21 @@
             this.PlaceContainerButton = new System.Windows.Forms.Button();
             this.ShipBuilderBox = new System.Windows.Forms.GroupBox();
             this.ContainerPlacerBox = new System.Windows.Forms.GroupBox();
+            this.UnorderedContainersListbox = new System.Windows.Forms.ListBox();
+            this.NewContainerGroupBox = new System.Windows.Forms.GroupBox();
+            this.AddResultLabel = new System.Windows.Forms.Label();
+            this.ContainerTypeComboBox = new System.Windows.Forms.ComboBox();
+            this.ContainerTypeLabel = new System.Windows.Forms.Label();
+            this.WeightNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.WeightLimitLabel = new System.Windows.Forms.Label();
+            this.AddContainerButton = new System.Windows.Forms.Button();
+            this.ContentWeightLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ShipWidthNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ShipLengthNumericUpDown)).BeginInit();
             this.ShipBuilderBox.SuspendLayout();
             this.ContainerPlacerBox.SuspendLayout();
+            this.NewContainerGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.WeightNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // BuildShipButton
@@ -86,12 +97,13 @@
             // 
             // PlaceContainerButton
             // 
-            this.PlaceContainerButton.Location = new System.Drawing.Point(6, 323);
+            this.PlaceContainerButton.Location = new System.Drawing.Point(198, 350);
             this.PlaceContainerButton.Name = "PlaceContainerButton";
-            this.PlaceContainerButton.Size = new System.Drawing.Size(75, 51);
+            this.PlaceContainerButton.Size = new System.Drawing.Size(102, 24);
             this.PlaceContainerButton.TabIndex = 5;
             this.PlaceContainerButton.Text = "Place Containers";
             this.PlaceContainerButton.UseVisualStyleBackColor = true;
+            this.PlaceContainerButton.Click += new System.EventHandler(this.PlaceContainerButton_Click);
             // 
             // ShipBuilderBox
             // 
@@ -109,22 +121,118 @@
             // 
             // ContainerPlacerBox
             // 
+            this.ContainerPlacerBox.Controls.Add(this.UnorderedContainersListbox);
+            this.ContainerPlacerBox.Controls.Add(this.NewContainerGroupBox);
             this.ContainerPlacerBox.Controls.Add(this.PlaceContainerButton);
             this.ContainerPlacerBox.Location = new System.Drawing.Point(15, 249);
             this.ContainerPlacerBox.Name = "ContainerPlacerBox";
-            this.ContainerPlacerBox.Size = new System.Drawing.Size(200, 380);
+            this.ContainerPlacerBox.Size = new System.Drawing.Size(306, 380);
             this.ContainerPlacerBox.TabIndex = 7;
             this.ContainerPlacerBox.TabStop = false;
             this.ContainerPlacerBox.Text = "Container Placer";
             this.ContainerPlacerBox.Visible = false;
+            // 
+            // UnorderedContainersListbox
+            // 
+            this.UnorderedContainersListbox.FormattingEnabled = true;
+            this.UnorderedContainersListbox.Location = new System.Drawing.Point(9, 148);
+            this.UnorderedContainersListbox.Name = "UnorderedContainersListbox";
+            this.UnorderedContainersListbox.Size = new System.Drawing.Size(291, 186);
+            this.UnorderedContainersListbox.TabIndex = 10;
+            // 
+            // NewContainerGroupBox
+            // 
+            this.NewContainerGroupBox.Controls.Add(this.AddResultLabel);
+            this.NewContainerGroupBox.Controls.Add(this.ContainerTypeComboBox);
+            this.NewContainerGroupBox.Controls.Add(this.ContainerTypeLabel);
+            this.NewContainerGroupBox.Controls.Add(this.WeightNumericUpDown);
+            this.NewContainerGroupBox.Controls.Add(this.WeightLimitLabel);
+            this.NewContainerGroupBox.Controls.Add(this.AddContainerButton);
+            this.NewContainerGroupBox.Controls.Add(this.ContentWeightLabel);
+            this.NewContainerGroupBox.Location = new System.Drawing.Point(9, 33);
+            this.NewContainerGroupBox.Name = "NewContainerGroupBox";
+            this.NewContainerGroupBox.Size = new System.Drawing.Size(297, 109);
+            this.NewContainerGroupBox.TabIndex = 9;
+            this.NewContainerGroupBox.TabStop = false;
+            this.NewContainerGroupBox.Text = "New Container";
+            // 
+            // AddResultLabel
+            // 
+            this.AddResultLabel.AutoSize = true;
+            this.AddResultLabel.Location = new System.Drawing.Point(4, 84);
+            this.AddResultLabel.Name = "AddResultLabel";
+            this.AddResultLabel.Size = new System.Drawing.Size(0, 13);
+            this.AddResultLabel.TabIndex = 11;
+            // 
+            // ContainerTypeComboBox
+            // 
+            this.ContainerTypeComboBox.FormattingEnabled = true;
+            this.ContainerTypeComboBox.Items.AddRange(new object[] {
+            "Normal",
+            "Valuable",
+            "Cooled",
+            "Valuable and Cooled"});
+            this.ContainerTypeComboBox.Location = new System.Drawing.Point(102, 50);
+            this.ContainerTypeComboBox.Name = "ContainerTypeComboBox";
+            this.ContainerTypeComboBox.Size = new System.Drawing.Size(121, 21);
+            this.ContainerTypeComboBox.TabIndex = 10;
+            // 
+            // ContainerTypeLabel
+            // 
+            this.ContainerTypeLabel.AutoSize = true;
+            this.ContainerTypeLabel.Location = new System.Drawing.Point(6, 53);
+            this.ContainerTypeLabel.Name = "ContainerTypeLabel";
+            this.ContainerTypeLabel.Size = new System.Drawing.Size(82, 13);
+            this.ContainerTypeLabel.TabIndex = 9;
+            this.ContainerTypeLabel.Text = "Container Type:";
+            // 
+            // WeightNumericUpDown
+            // 
+            this.WeightNumericUpDown.Location = new System.Drawing.Point(102, 19);
+            this.WeightNumericUpDown.Maximum = new decimal(new int[] {
+            30000,
+            0,
+            0,
+            0});
+            this.WeightNumericUpDown.Name = "WeightNumericUpDown";
+            this.WeightNumericUpDown.Size = new System.Drawing.Size(50, 20);
+            this.WeightNumericUpDown.TabIndex = 5;
+            // 
+            // WeightLimitLabel
+            // 
+            this.WeightLimitLabel.AutoSize = true;
+            this.WeightLimitLabel.Location = new System.Drawing.Point(153, 16);
+            this.WeightLimitLabel.Name = "WeightLimitLabel";
+            this.WeightLimitLabel.Size = new System.Drawing.Size(143, 26);
+            this.WeightLimitLabel.TabIndex = 8;
+            this.WeightLimitLabel.Text = "Container weighs 4000kg.\r\nTotal can\'t exceed 30000kg!";
+            // 
+            // AddContainerButton
+            // 
+            this.AddContainerButton.Location = new System.Drawing.Point(189, 78);
+            this.AddContainerButton.Name = "AddContainerButton";
+            this.AddContainerButton.Size = new System.Drawing.Size(102, 25);
+            this.AddContainerButton.TabIndex = 6;
+            this.AddContainerButton.Text = "Add Container";
+            this.AddContainerButton.UseVisualStyleBackColor = true;
+            this.AddContainerButton.Click += new System.EventHandler(this.AddContainerButton_Click);
+            // 
+            // ContentWeightLabel
+            // 
+            this.ContentWeightLabel.AutoSize = true;
+            this.ContentWeightLabel.Location = new System.Drawing.Point(4, 21);
+            this.ContentWeightLabel.Name = "ContentWeightLabel";
+            this.ContentWeightLabel.Size = new System.Drawing.Size(100, 13);
+            this.ContentWeightLabel.TabIndex = 7;
+            this.ContentWeightLabel.Text = "Weight of contents:";
             // 
             // ContainerTransportController
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(735, 794);
-            this.Controls.Add(this.ContainerPlacerBox);
             this.Controls.Add(this.ShipBuilderBox);
+            this.Controls.Add(this.ContainerPlacerBox);
             this.Name = "ContainerTransportController";
             this.Text = "Container Transport";
             this.Load += new System.EventHandler(this.ContainerTransportController_Load);
@@ -133,6 +241,9 @@
             this.ShipBuilderBox.ResumeLayout(false);
             this.ShipBuilderBox.PerformLayout();
             this.ContainerPlacerBox.ResumeLayout(false);
+            this.NewContainerGroupBox.ResumeLayout(false);
+            this.NewContainerGroupBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.WeightNumericUpDown)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -147,6 +258,15 @@
         private System.Windows.Forms.Button PlaceContainerButton;
         private System.Windows.Forms.GroupBox ShipBuilderBox;
         private System.Windows.Forms.GroupBox ContainerPlacerBox;
+        private System.Windows.Forms.Button AddContainerButton;
+        private System.Windows.Forms.Label WeightLimitLabel;
+        private System.Windows.Forms.Label ContentWeightLabel;
+        private System.Windows.Forms.NumericUpDown WeightNumericUpDown;
+        private System.Windows.Forms.GroupBox NewContainerGroupBox;
+        private System.Windows.Forms.Label ContainerTypeLabel;
+        private System.Windows.Forms.ComboBox ContainerTypeComboBox;
+        private System.Windows.Forms.ListBox UnorderedContainersListbox;
+        private System.Windows.Forms.Label AddResultLabel;
     }
 }
 

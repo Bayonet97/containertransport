@@ -25,6 +25,22 @@ ENGLISH
 • The ship must be in balance: the full weight of the containers for each half must not differ by more than 20%.
 • The size of a ship must be adjustable in the application, whereby the length and width can be indicated in containers.
 ====================================
+NECCESITIES PLACING CONTAINERS
+====================================
+- Cooled containers need to be placed first. Always in front. Normal containers second. Not in front or back unless no other option possible. Valuable cooled containers third. Always on top and in front. Valuable containers last. Always on top and in front or back.
+- No two valuable containers can be stacked on top of eachother.
+- Place containers in center for as long as there is a slot with no container in center. Center weight is divided in half over both sides.
+- If every slot on center has a container and there is no container on the left or right, place one left.
+- Check for ship balance and place on next side with least weight. Always try to place on slot with least containers.
+- If the lightest weighted side is full, place on center. Always try to place on slot with least containers.
+- If the center is full, place on heavier side. Always try to place on slot with least containers.
+- Repeat for next container.
+- A slot cannot contain 2 valuable containers. A valuable container has to always be on top.
+- We want the heaviest containers on the bottom, so that more can be stacked on top.
+- We need to know which slots are available for the given container.
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+====================================
 CLASSES:				INTERFACES:
 ====================================
 - Ship					- IShip
@@ -36,7 +52,7 @@ CLASSES:				INTERFACES:
 =====================================================================================================================================================================
 MAIN FLOW BUILDING SHIP																							ADMINISTRATION
 =====================================================================================================================================================================
-																										INPUT:	Ship size (Length and Width in containers), AssignShip()
+																										INPUT:	Ship size (Length and Width in containers), BuildShip()
 												
 																										PROCESS: 			
 																												int length = GetLengthInput()
@@ -49,6 +65,24 @@ MAIN FLOW BUILDING SHIP																							ADMINISTRATION
 																		
 DONE! 
 ======================================================================================================================================================================
+MAIN FLOW BUILDING CONTAINERS																					ADMINISTRATION
+======================================================================================================================================================================
+																										INPUT:	Weight of container, Type of container, BuildContainer(int weight, ContainerType type)
+
+																										PROCESS:
+																												ContainerType type = ConvertSelectionToType(string/int selection)
+																												int weight = baseWeight
+
+1. Check if container would be overweight.																		bool OverweightWithAddedWeight(int addedWeight)
+		|
+		|
+		1. If not overweight, create the new container with values and add it to the list.						SetContainerValues(int addedWeight, ContainerType type)
+		|
+		|
+		2. If overweight, dump the container >:(																container = null;
+
+DONE!
+======================================================================================================================================================================
 MAIN FLOW LOADING SHIP																							ADMINISTRATION
 ======================================================================================================================================================================
 																										INPUT:	List of containers, StartLoading()
@@ -56,21 +90,47 @@ MAIN FLOW LOADING SHIP																							ADMINISTRATION
 																										PROCESS:
 0. Initiate ContainerShipLoader																					IContainerShipLoader shiploader = new ContainerShipLoader()			
 
-1. Get list of containers																						IContainer unloadedContainers = dock.GetContainers()
+1. Get list of containers and sort by weight																	IContainer unloadedContainers = dock.GetContainers()
 
 2. As long as there are refrigerated containers, get next refrigerated container								Find unloadedContainers.ContainerType == refrigerated
+		|
+		|
+		1. Get optimal slot for refrigerated container															GetRefrigeratedContainerSlot()		
+		|
+		2. If a container is returned. Place refrigerated container on slot.									PlaceContainerOnSlot(IContainer container, ISlot slot)
+		|
+		3. Else, Tell the user that there is no slot to load given container on.											
 
-3. Place refrigerated container in first row																	PlaceRefrigeratedContainer(IContainer container)		
-		|
-		|
-		1. Get the side of the ship which retains the best balance possible.									ship.GetSideToPlaceContainerOn()
-		|
-		2. Get the first row and check if a container can be placed.											ship.IsFirstRowFull() 
+3. Repeat 2 for Normal containers
+
+4. Repeat 2 for containers that are both valuable and refrigerated
+
+5. Repeat 2 for Valuable containers
 ======================================================================================================================================================================
-MAIN FLOW ROW OCCUPATION																						ADMINISTRATION
+MAIN FLOW SLOT OCCUPATION																						ADMINISTRATION
 ======================================================================================================================================================================
+																										INPUT: container, FindContainerTypeSlot()
 
+																										PROCESS:
+0. Based on which type of container was given, we need to get all the available slots for container.		    List<ISlot> openSlots = list of slots that are available to given type
 
+1. Get get best slot.																							ISlot bestSlot = GetBestSlot(openSlots) 										
+		|
+		|
+		1. Get the slots from the best side. And check if not empty.											slotsBestSide = openSlots.Find(x => x.ShipSide == ship.GetLightestSide()) if(slotsBestSide.Count != 0)
+		|
+		|
+		2. If it isnt empty, take the lightest of the slots.													bestSlot = GetLightestOfSide(slotsBestSide) slotsBestSide.Orderby(x => x.SlotWeight).First();
+		|
+		|
+		3. If there is no slot on given side, get the slots in center. And check if not empty.					slotsCenterSide = openSlots.Find(x => x.ShipSide == Center) if(slotsCenterSide.Count != 0)
+		|
+		|
+		4. If it isnt empty, take the lightest of the slots.													bestSlot = GetLightestOfSide(slotsBestSide) slotsBestSide.Orderby(x => x.SlotWeight).First();
+		|
+		|
+		5. If the center is full too, get the heaviest side and check if not empty.								slotssHeavySide = openSlots.Find(x => x.ShipSide == sip.GetHeaviestSide()) if(slotsCenterSide.Count != 0)
+4. Return the best slot.
 ======================================================================================================================================================================
 MAIN FLOW SHIP BALANCE																							ADMINISTRATION
 ======================================================================================================================================================================

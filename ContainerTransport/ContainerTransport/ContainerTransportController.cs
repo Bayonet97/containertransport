@@ -22,7 +22,9 @@ namespace ContainerTransport
 
         private void ContainerTransportController_Load(object sender, EventArgs e)
         {
-
+            WeightNumericUpDown.Controls[0].Visible = false; // Disable arrows on the numeric updown
+            ContainerTypeComboBox.DropDownStyle = ComboBoxStyle.DropDownList; // Disables input and makes it look neater
+            ContainerTypeComboBox.SelectedIndex = 0;  // Selected type defaults to normal
         }
 
         private void BuildShipButton_Click(object sender, EventArgs e)
@@ -39,6 +41,41 @@ namespace ContainerTransport
         private void DisplayShipSlots()
         {
             MessageBox.Show(_dock.Ship.ToString());
+        }
+
+        private void AddContainerButton_Click(object sender, EventArgs e)
+        {
+            ContainerType type = (ContainerType)ContainerTypeComboBox.SelectedIndex;
+            double weight = Convert.ToInt16(WeightNumericUpDown.Value);
+
+            _dock.AddNewUnorderedContainer(weight, type);
+            UpdateUnorderedContainerListBox();
+
+            AddResultLabel.Text = _dock.AddContainerResultString;
+        }
+
+        private void UpdateUnorderedContainerListBox()
+        {
+            UnorderedContainersListbox.Items.Clear();
+            foreach (Logic.IContainer container in _dock.UnorderedContainers)
+            {
+                UnorderedContainersListbox.Items.Add(container.ToString());
+            }
+        }
+
+        private void PlaceContainerButton_Click(object sender, EventArgs e)
+        {
+            IContainerShipLoader containerShipLoader = new ContainerShipLoader(_dock);
+
+            containerShipLoader.InitiateLoading();
+            MessageBox.Show(string.Join(Environment.NewLine, containerShipLoader.LoadContainerResultString));
+            List<string> allSlots = new List<string>();
+            foreach(ISlot slot in _dock.Ship.Slots)
+            {
+               allSlots.Add(slot.ToString());
+            }
+            
+            MessageBox.Show(string.Join(Environment.NewLine, allSlots));
         }
     }
 }

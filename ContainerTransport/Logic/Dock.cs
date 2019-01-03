@@ -7,12 +7,28 @@ namespace Logic
     public class Dock : IDock
     {
         public IShip Ship { get; private set; }
-        public List<IContainer> UnorderedContainers { get; private set; }
+        public string AddContainerResultString { get; private set; }
+        public List<IContainer> UnorderedContainers { get; private set; } = new List<IContainer>();
 
-        public Dock(List<IContainer> containerList)
+
+        public void AddNewUnorderedContainer(double addedWeight, ContainerType type)
         {
-            UnorderedContainers = containerList;
+            IContainer container = new Container();
+
+            if (container.NotOverweightBy(addedWeight))
+            {
+                container.SetContainerValues(addedWeight, type);
+
+                UnorderedContainers.Add(container);
+                AddContainerResultString = "Container " + container.ContainerId + " Succesfully added.";
+            }
+            else
+            {
+                AddContainerResultString = "Container not added. Too heavy!";
+                container = null;
+            }
         }
+
         public void BuildShip(int width, int length)
         {
             Ship = new Ship(width, length);

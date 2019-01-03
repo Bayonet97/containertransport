@@ -5,10 +5,11 @@ namespace Logic
     public interface ISlot
     {
         List<IContainer> ContainerStack { get; }
-        bool IsAccessibleFromSide { get; }
+        bool IsBackRow { get; }
         bool IsFrontRow { get; }
         int SlotNumber { get; }
-        ShipSide SlotSide { get; }
+        double SlotWeight { get; }
+        ShipSide ShipSide { get; }
         void AddContainer(IContainer container);
         bool CanAddContainer(IContainer container);
     }
