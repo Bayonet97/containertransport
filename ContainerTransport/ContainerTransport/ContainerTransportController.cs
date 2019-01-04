@@ -29,10 +29,11 @@ namespace ContainerTransport
 
         private void BuildShipButton_Click(object sender, EventArgs e)
         {
-            int width = Convert.ToInt16(ShipWidthNumericUpDown.Value);
-            int length = Convert.ToInt16(ShipLengthNumericUpDown.Value);
+            int width = Convert.ToInt32(ShipWidthNumericUpDown.Value);
+            int length = Convert.ToInt32(ShipLengthNumericUpDown.Value);
+            int shipWeight = Convert.ToInt32(ShipMaxWeightNumericUpDown.Value);
 
-            _dock.BuildShip(width, length);
+            _dock.BuildShip(shipWeight, width, length);
             ContainerPlacerBox.Visible = true;
             ShipBuilderBox.Visible = false;
             DisplayShipSlots();
@@ -68,7 +69,10 @@ namespace ContainerTransport
             IContainerShipLoader containerShipLoader = new ContainerShipLoader(_dock);
 
             containerShipLoader.InitiateLoading();
-            MessageBox.Show(string.Join(Environment.NewLine, containerShipLoader.LoadContainerResultString));
+            if(containerShipLoader.LoadContainerResultString.Count != 0)
+            {
+                MessageBox.Show(string.Join(Environment.NewLine, containerShipLoader.LoadContainerResultString));
+            }           
             List<string> allSlots = new List<string>();
             foreach(ISlot slot in _dock.Ship.Slots)
             {
@@ -76,6 +80,7 @@ namespace ContainerTransport
             }
             
             MessageBox.Show(string.Join(Environment.NewLine, allSlots));
+            MessageBox.Show(containerShipLoader.ShipBalanceSafetyOutput());
         }
     }
 }

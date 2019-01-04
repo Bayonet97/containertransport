@@ -29,9 +29,9 @@ namespace Logic
             }
         }
 
-        public void BuildShip(int width, int length)
+        public void BuildShip(int shipWeight, int width, int length)
         {
-            Ship = new Ship(width, length);
+            Ship = new Ship(shipWeight, width, length);
         }
 
         public override string ToString()

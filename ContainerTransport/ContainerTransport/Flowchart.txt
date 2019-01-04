@@ -134,9 +134,20 @@ MAIN FLOW SLOT OCCUPATION																						ADMINISTRATION
 ======================================================================================================================================================================
 MAIN FLOW SHIP BALANCE																							ADMINISTRATION
 ======================================================================================================================================================================
-																										INPUT: Get ship balance, GetSideToPlaceContainerOn()
+																										INPUT: Get ship balance bounds, GetSideToPlaceContainerOn()
 																										
 																										PROCESS:
-0. Check if the ship is in balance																				if(ship.leftWeight == loadedContainers.right.Count) 
+0. After loading, check if at least 50% of ship max weight has been used.										if(ship.MaxWeight / 2  >= loadedContainers) 
 
 	A. Return that middle																						return center
+
+
+•	Om kapseizen te voorkomen moet ten minste 50% van het maximum gewicht van een schip zijn benut.
+•	Het schip moet in evenwicht zijn: het volledige gewicht van de containers voor iedere helft mag niet meer dan 20% verschillen.
+
+======================================================================================================================================================================
+POSSIBLE ADDITIONS FOR IMPROVEMENT
+======================================================================================================================================================================
+- Add functionality for the loader to rebalance ship when the final balance is out of bounds by looking at possibilities to move containers from the heavier side
+  to the center or by moving containers from the center to the lighter side.
+- Add dynamic visuals.

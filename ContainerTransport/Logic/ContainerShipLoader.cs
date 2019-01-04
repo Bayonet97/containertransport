@@ -22,6 +22,26 @@ namespace Logic
             OrderContainersByWeight(); // Heaviest first.           
             HandleContainersInOrder();
         }
+        public string ShipBalanceSafetyOutput()
+        {
+            if(_ship.GetShipLoadWeightPercentage() < 50)
+            {
+                return "The loaded containers don't weigh 50% or more of the ship's maximum weight, it's unfsafe to sail!";
+            }
+            else if(_ship.GetShipLoadWeightPercentage() > 100)
+            {
+                return "The loaded containers weigh more than the maximum weight the ship can carry, it's unfsafe to sail!";
+            }
+            if (_ship.GetShipBalancePercentage() > 20)
+            {
+                return "Ship leans more than 20% to the right, it's unsafe to sail!";
+            }
+            else if(_ship.GetShipBalancePercentage() < -20)
+            {
+                return "Ship leans more than 20% to the left, it's unsafe to sail!";
+            }
+            return "Ship is safe to depart! Weight occupation: " + _ship.GetShipLoadWeightPercentage() + "%. Ship Balance: " + _ship.GetShipBalancePercentage() + "%. (0% is perfect).";
+        }
         private void SetContainersToLoad()
         {
             _unorderedContainers = _dock.UnorderedContainers;
@@ -76,8 +96,7 @@ namespace Logic
 
             slot.AddContainer(container);
             _unorderedContainers.Remove(container);
-            // TO DO: SHIP BALANCE
-            // _ship.UpdateShipBalance();
+            _ship.UpdateShipBalance(slot, container);
         }
  
     }

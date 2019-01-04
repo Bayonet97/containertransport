@@ -7,14 +7,18 @@ namespace Logic
         int TotalLength { get; }
         int TotalWidth { get; }
         bool HasCenter { get; }
+        double MaxShipWeight { get; }
         List<ISlot> Slots { get; }
-        int TotalWeightLeftSide { get; }
-        int TotalWeightCenter { get; }
-        int TotalWeightRightSide { get; }
-        void UpdateShipBalance();
+        double TotalWeightLeftSide { get; }
+        double TotalWeightCenter { get; }
+        double TotalWeightRightSide { get; }
+        void UpdateShipBalance(ISlot slot, IContainer container);
+        double GetShipBalancePercentage();
+        double GetShipLoadWeightPercentage();
         ShipSide GetOptimalShipSide();
         ShipSide GetSubOptimalShipSide();
         ShipSide GetWorstShipSide();
+        double TotalLoadWeight { get; }
 
     }
 }

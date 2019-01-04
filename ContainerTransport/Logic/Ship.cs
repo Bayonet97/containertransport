@@ -8,13 +8,16 @@ namespace Logic
         public int TotalWidth { get; private set; }
         public int TotalLength { get; private set; }
         public bool HasCenter { get; private set; }
+        public double MaxShipWeight { get; private set; }
         public List<ISlot> Slots { get; private set; } = new List<ISlot>();
-        public int TotalWeightLeftSide { get; private set; }
-        public int TotalWeightCenter { get; private set; }
-        public int TotalWeightRightSide { get; private set; }
+        public double TotalWeightLeftSide { get; private set; }
+        public double TotalWeightCenter { get; private set; }
+        public double TotalWeightRightSide { get; private set; }
+        public double TotalLoadWeight { get; private set; }
 
-        public Ship(int width, int length)
+        public Ship(int shipWeight, int width, int length)
         {
+            MaxShipWeight = shipWeight;
             TotalWidth = width;
             TotalLength = length;
 
@@ -22,12 +25,35 @@ namespace Logic
             AssignSlotsToShip();
         }
 
-        public void UpdateShipBalance()
+        public void UpdateShipBalance(ISlot slot, IContainer container)
         {
-            // Once a container is added, do this.   
-            throw new NotImplementedException();
+            if (slot.ShipSide == ShipSide.Left)
+            {
+                TotalWeightLeftSide += container.ContainerWeight;
+            }
+            else if (slot.ShipSide == ShipSide.Right)
+            {
+                TotalWeightRightSide += container.ContainerWeight;
+            }
+            else if (slot.ShipSide == ShipSide.Center)
+            {
+                TotalWeightCenter += container.ContainerWeight;
+                // The weight on the center counts half towards both sides.
+                TotalWeightLeftSide += TotalWeightCenter / 2;
+                TotalWeightRightSide += TotalWeightCenter / 2;
+            }
+            TotalLoadWeight = TotalWeightRightSide + TotalWeightLeftSide;
         }
 
+        public double GetShipBalancePercentage()
+        {
+            // Negative percentage leans towards left, positive leans towards right.
+            return (TotalWeightRightSide - TotalWeightLeftSide) / 100;
+        }
+        public double GetShipLoadWeightPercentage()
+        {
+            return TotalLoadWeight / MaxShipWeight * 100;
+        }
         public ShipSide GetOptimalShipSide()
         {
             if(TotalWeightLeftSide < TotalWeightRightSide)
@@ -38,8 +64,14 @@ namespace Logic
             {
                 return ShipSide.Right;
             }
-            else return ShipSide.Center;
+            else if (HasCenter)
+            {
+                return ShipSide.Center;
+            }
+            // If there is no center and the weight is equal, return left as optimal best.
+            else return ShipSide.Left;      
         }
+
         public ShipSide GetSubOptimalShipSide()
         {
             if (GetOptimalShipSide() == ShipSide.Center && GetWorstShipSide() == ShipSide.Left)
@@ -62,7 +94,12 @@ namespace Logic
             {
                 return ShipSide.Right;
             }
-            else return ShipSide.Center;
+            else if (HasCenter)
+            {
+                return ShipSide.Center;
+            }
+            // If there is no center and the weight is equal, return right as optimal worst.
+            else return ShipSide.Right;
         }
         private void AssignSlotsToShip()
         {

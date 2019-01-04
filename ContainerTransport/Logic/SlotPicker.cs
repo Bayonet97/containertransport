@@ -65,76 +65,76 @@ namespace Logic
             return GetBestSlot(_openSlots);
         }
 
-        private ISlot GetBestSlot(List<ISlot> openSlots) // TO DO: DIVIDE INTO SMALLER METHODS. TAKE SHIP BALANCE INTO ACCOUNT.
+        private ISlot GetBestSlot(List<ISlot> openSlots) // TO DO: DIVIDE INTO SMALLER METHODS.
         {
-            // Get slot on the most optimal side for the container to be placed on.
-            ISlot bestSlot;
-
             List<ISlot> slotsBestSide = new List<ISlot>();
 
-            // Get the lightest side of the ship as best side.
-            slotsBestSide = openSlots.FindAll(x => x.ShipSide == _ship.GetOptimalShipSide());
+            List<ISlot> allLeftSlots = _ship.Slots.FindAll(x => x.ShipSide == ShipSide.Left);
+            List<ISlot> allCenterSlots = _ship.Slots.FindAll(x => x.ShipSide == ShipSide.Center);
+            List<ISlot> allRightSlots = _ship.Slots.FindAll(x => x.ShipSide == ShipSide.Right);
 
-            if (slotsBestSide.Count != 0 && _ship.GetOptimalShipSide() == ShipSide.Left || _ship.GetOptimalShipSide() == ShipSide.Right)
+            // Gets the least loaded side of the ship.
+            ShipSide optimalShipSide = _ship.GetOptimalShipSide();
+            
+            // Get the lightest side of the ship as best side.
+            slotsBestSide = openSlots.FindAll(x => x.ShipSide == optimalShipSide);
+
+            // Stack on left or right if either is the optimal side to stack.
+            if (slotsBestSide.Count != 0 && optimalShipSide == ShipSide.Left || slotsBestSide.Count != 0 && optimalShipSide == ShipSide.Right)
             {
-                bestSlot = GetLightestSlotOfShipSide(slotsBestSide);
-                return bestSlot;
+                return GetLightestSlotOfShipSide(slotsBestSide);
             }
-            else if (slotsBestSide.Count != 0 && _ship.GetOptimalShipSide() == ShipSide.Center)
+            // If the ship has a center and the optimal side is the center...
+            else if (_ship.HasCenter && optimalShipSide == ShipSide.Center && slotsBestSide.Count != 0)
             {
-                bestSlot = GetLightestSlotOfShipSide(slotsBestSide);
-                if (bestSlot.SlotWeight == 0)
+                // Stack the center if the best slot is empty or If there are containers on the left or right or the ship is only 1 wide, just return the best slot on the center.
+                if (GetLightestSlotOfShipSide(slotsBestSide).SlotWeight == 0 || allLeftSlots.Find(x => x.SlotWeight > 0) != null || allRightSlots.Find(x => x.SlotWeight > 0) != null || _ship.TotalWidth == 1)
                 {
-                    return bestSlot;
+                    return GetLightestSlotOfShipSide(slotsBestSide);
                 }
-                else if (_ship.TotalWeightLeftSide == 0 && _ship.TotalWeightRightSide == 0)
+            }
+            if (allLeftSlots.Find(x => x.ContainerStack.Count != 0) == null && allRightSlots.Find(x => x.ContainerStack.Count != 0) == null && _ship.TotalWidth > 1)
+            {
+                // Stack left
+                slotsBestSide = openSlots.FindAll(x => x.ShipSide == ShipSide.Left);
+                if (slotsBestSide.Count != 0)
                 {
-                    slotsBestSide = openSlots.FindAll(x => x.ShipSide == ShipSide.Left);
+                    return GetLightestSlotOfShipSide(slotsBestSide);
+                }
+                else // Or stack right if left is somehow unstackable to prevent containers not being stacked unneccesarily.
+                {
+                    slotsBestSide = openSlots.FindAll(x => x.ShipSide == ShipSide.Right);
                     if (slotsBestSide.Count != 0)
                     {
-                        bestSlot = GetLightestSlotOfShipSide(slotsBestSide);
-
-                        return bestSlot;
-                    }
-                    else
-                    {
-                        slotsBestSide = openSlots.FindAll(x => x.ShipSide == ShipSide.Right);
-                        bestSlot = GetLightestSlotOfShipSide(slotsBestSide);
-
-                        return bestSlot;
+                        return GetLightestSlotOfShipSide(slotsBestSide);
                     }
                 }
-                else
+            }
+            // Get the second lightest side of the ship as best side if there is a center.
+            if (_ship.HasCenter)
+            {
+                slotsBestSide = openSlots.FindAll(x => x.ShipSide == _ship.GetSubOptimalShipSide());
+
+                if (slotsBestSide.Count != 0)
                 {
-                    return bestSlot;
+                    return GetLightestSlotOfShipSide(slotsBestSide);
                 }
             }
 
-            // Get the lightest side of the ship as best side.
-            slotsBestSide = openSlots.FindAll(x => x.ShipSide == _ship.GetSubOptimalShipSide());
-
+            // If there is no slot on the center side or there is no center, try to find any open slot as last hope.
+            slotsBestSide = openSlots;
             if (slotsBestSide.Count != 0)
             {
-                bestSlot = GetLightestSlotOfShipSide(slotsBestSide);
-                return bestSlot;
+                return GetLightestSlotOfShipSide(slotsBestSide);
             }
-
-
-            // If there is no slot on the center side, try the heavy side as best side.
-            slotsBestSide = openSlots.FindAll(x => x.ShipSide == _ship.GetWorstShipSide());
-
-            if (slotsBestSide.Count != 0)
-            {
-                bestSlot = GetLightestSlotOfShipSide(slotsBestSide);
-                return bestSlot;
-            }
-
             return null; // Return no slot if there is nothing.
         }
 
+
         private ISlot GetLightestSlotOfShipSide(List<ISlot> slotsOneShipSide)
         {
-            return slotsOneShipSide.OrderBy(x => x.SlotWeight).First();
+            IEnumerable<ISlot> slots = slotsOneShipSide.OrderBy(x => x.SlotWeight);
+            return slots.First();
         }
 
     }

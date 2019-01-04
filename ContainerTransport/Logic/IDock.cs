@@ -8,6 +8,6 @@ namespace Logic
         string AddContainerResultString { get; }
         List<IContainer> UnorderedContainers { get; } 
         void AddNewUnorderedContainer(double weight, ContainerType type);
-        void BuildShip(int width, int length);
+        void BuildShip(int shipWeight, int width, int length);
     }
 }

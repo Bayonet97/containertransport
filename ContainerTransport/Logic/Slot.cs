@@ -12,7 +12,7 @@ namespace Logic
     public class Slot : ISlot
     {
         private static int slotNumber = 0;
-        private const int maxWeight = 120000000;
+        private const int maxWeight = 120000;
         public double SlotWeight { get; private set; }
         public ShipSide ShipSide { get; private set; }
         public List<IContainer> ContainerStack { get; private set; } = new List<IContainer>();
@@ -31,7 +31,7 @@ namespace Logic
         public void AddContainer(IContainer container)
         {
             ContainerStack.Add(container);
-            SlotWeight += container.ContainerWeight;
+            SlotWeight = SlotWeight + container.ContainerWeight;
         }
 
         public bool CanAddContainer(IContainer container)

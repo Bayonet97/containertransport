@@ -45,17 +45,20 @@
             this.WeightLimitLabel = new System.Windows.Forms.Label();
             this.AddContainerButton = new System.Windows.Forms.Button();
             this.ContentWeightLabel = new System.Windows.Forms.Label();
+            this.ShipMaxWeightLabel = new System.Windows.Forms.Label();
+            this.ShipMaxWeightNumericUpDown = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.ShipWidthNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ShipLengthNumericUpDown)).BeginInit();
             this.ShipBuilderBox.SuspendLayout();
             this.ContainerPlacerBox.SuspendLayout();
             this.NewContainerGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.WeightNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ShipMaxWeightNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // BuildShipButton
             // 
-            this.BuildShipButton.Location = new System.Drawing.Point(6, 94);
+            this.BuildShipButton.Location = new System.Drawing.Point(6, 131);
             this.BuildShipButton.Name = "BuildShipButton";
             this.BuildShipButton.Size = new System.Drawing.Size(71, 48);
             this.BuildShipButton.TabIndex = 0;
@@ -107,6 +110,8 @@
             // 
             // ShipBuilderBox
             // 
+            this.ShipBuilderBox.Controls.Add(this.ShipMaxWeightNumericUpDown);
+            this.ShipBuilderBox.Controls.Add(this.ShipMaxWeightLabel);
             this.ShipBuilderBox.Controls.Add(this.ShipWidthNumericUpDown);
             this.ShipBuilderBox.Controls.Add(this.BuildShipButton);
             this.ShipBuilderBox.Controls.Add(this.ShipWidthLabel);
@@ -114,7 +119,7 @@
             this.ShipBuilderBox.Controls.Add(this.ShipLengthLabel);
             this.ShipBuilderBox.Location = new System.Drawing.Point(15, 58);
             this.ShipBuilderBox.Name = "ShipBuilderBox";
-            this.ShipBuilderBox.Size = new System.Drawing.Size(265, 148);
+            this.ShipBuilderBox.Size = new System.Drawing.Size(265, 185);
             this.ShipBuilderBox.TabIndex = 6;
             this.ShipBuilderBox.TabStop = false;
             this.ShipBuilderBox.Text = "Ship Builder";
@@ -226,6 +231,27 @@
             this.ContentWeightLabel.TabIndex = 7;
             this.ContentWeightLabel.Text = "Weight of contents:";
             // 
+            // ShipMaxWeightLabel
+            // 
+            this.ShipMaxWeightLabel.AutoSize = true;
+            this.ShipMaxWeightLabel.Location = new System.Drawing.Point(6, 100);
+            this.ShipMaxWeightLabel.Name = "ShipMaxWeightLabel";
+            this.ShipMaxWeightLabel.Size = new System.Drawing.Size(199, 13);
+            this.ShipMaxWeightLabel.TabIndex = 5;
+            this.ShipMaxWeightLabel.Text = "Max Weight:                             Kilograms";
+            // 
+            // ShipMaxWeightNumericUpDown
+            // 
+            this.ShipMaxWeightNumericUpDown.Location = new System.Drawing.Point(74, 98);
+            this.ShipMaxWeightNumericUpDown.Maximum = new decimal(new int[] {
+            1000000000,
+            0,
+            0,
+            0});
+            this.ShipMaxWeightNumericUpDown.Name = "ShipMaxWeightNumericUpDown";
+            this.ShipMaxWeightNumericUpDown.Size = new System.Drawing.Size(77, 20);
+            this.ShipMaxWeightNumericUpDown.TabIndex = 6;
+            // 
             // ContainerTransportController
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -244,6 +270,7 @@
             this.NewContainerGroupBox.ResumeLayout(false);
             this.NewContainerGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.WeightNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ShipMaxWeightNumericUpDown)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -267,6 +294,8 @@
         private System.Windows.Forms.ComboBox ContainerTypeComboBox;
         private System.Windows.Forms.ListBox UnorderedContainersListbox;
         private System.Windows.Forms.Label AddResultLabel;
+        private System.Windows.Forms.NumericUpDown ShipMaxWeightNumericUpDown;
+        private System.Windows.Forms.Label ShipMaxWeightLabel;
     }
 }
 
