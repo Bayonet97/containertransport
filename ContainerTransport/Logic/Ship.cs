@@ -48,7 +48,7 @@ namespace Logic
         public double GetShipBalancePercentage()
         {
             // Negative percentage leans towards left, positive leans towards right.
-            return (TotalWeightRightSide - TotalWeightLeftSide) / 100;
+            return ((TotalWeightRightSide - TotalWeightLeftSide) / TotalWeightLeftSide) * 100;
         }
         public double GetShipLoadWeightPercentage()
         {
