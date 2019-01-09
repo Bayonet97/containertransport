@@ -28,7 +28,7 @@ ENGLISH
 NECCESITIES PLACING CONTAINERS
 ====================================
 - Cooled containers need to be placed first. Always in front. Normal containers second. Not in front or back unless no other option possible. Valuable cooled containers third. Always on top and in front. Valuable containers last. Always on top and in front or back.
-- No two valuable containers can be stacked on top of eachother.
+- No two valuable containers can be stacked on top of each other.
 - Place containers in center for as long as there is a slot with no container in center. Center weight is divided in half over both sides.
 - If every slot on center has a container and there is no container on the left or right, place one left.
 - Check for ship balance and place on next side with least weight. Always try to place on slot with least containers.
@@ -97,7 +97,7 @@ MAIN FLOW LOADING SHIP																							ADMINISTRATION
 		|
 		1. Get optimal slot for refrigerated container															GetRefrigeratedContainerSlot()		
 		|
-		2. If a container is returned. Place refrigerated container on slot.									PlaceContainerOnSlot(IContainer container, ISlot slot)
+		2. If a slot is returned. Place refrigerated container on slot.									PlaceContainerOnSlot(IContainer container, ISlot slot)
 		|
 		3. Else, Tell the user that there is no slot to load given container on.											
 

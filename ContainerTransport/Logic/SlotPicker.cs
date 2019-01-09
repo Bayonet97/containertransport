@@ -93,6 +93,7 @@ namespace Logic
                     return GetLightestSlotOfShipSide(slotsBestSide);
                 }
             }
+            // As long as there is no stack without a container
             if (allLeftSlots.Find(x => x.ContainerStack.Count != 0) == null && allRightSlots.Find(x => x.ContainerStack.Count != 0) == null && _ship.TotalWidth > 1)
             {
                 // Stack left

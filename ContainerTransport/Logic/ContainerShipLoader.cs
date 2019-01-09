@@ -55,6 +55,7 @@ namespace Logic
             ISlotPicker slotPicker = new SlotPicker(_ship);
             IContainer container;
             ISlot slot;
+
             while (_unorderedContainers.FindAll(x => x.ContainerType == ContainerType.Cooled).Count != 0) // For as long as there are Cooled containers...
             {
                 container = _unorderedContainers.Find(x => x.ContainerType == ContainerType.Cooled); // Take the first Cooled container...
@@ -62,6 +63,7 @@ namespace Logic
 
                 LoadContainerToSlot(container, slot);
             }
+
             while (_unorderedContainers.FindAll(x => x.ContainerType == ContainerType.Normal).Count != 0) // For as long as there are Normal containers...
             {
                 container = _unorderedContainers.Find(x => x.ContainerType == ContainerType.Normal); // Take the first Normal container...
@@ -69,6 +71,7 @@ namespace Logic
 
                 LoadContainerToSlot(container, slot);
             }
+
             while (_unorderedContainers.FindAll(x => x.ContainerType == ContainerType.ValuableAndCooled).Count != 0)  // For as long as there are CooledAndValuable containers...
             {
                 container = _unorderedContainers.Find(x => x.ContainerType == ContainerType.ValuableAndCooled); // Take the first CooledAndValuable container...
@@ -76,6 +79,7 @@ namespace Logic
 
                 LoadContainerToSlot(container, slot);
             }
+
             while (_unorderedContainers.FindAll(x => x.ContainerType == ContainerType.Valuable).Count != 0)  // For as long as there are Valuable containers...
             {
                 container = _unorderedContainers.Find(x => x.ContainerType == ContainerType.Valuable); // Take the first Valuable container...
